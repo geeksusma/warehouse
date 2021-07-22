@@ -1,6 +1,8 @@
 package es.geeksusma.warehouse.item;
 
-class Item {
+import java.util.Objects;
+
+public class Item {
     final String serialNumber;
     final String name;
     final String description;
@@ -17,37 +19,50 @@ class Item {
         return this.serialNumber == null || "".equals(this.serialNumber);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return serialNumber.equals(item.serialNumber) && name.equals(item.name) && Objects.equals(description, item.description) && Objects.equals(stock, item.stock);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(serialNumber, name, description, stock);
+    }
+
     public static class ItemBuilder {
         private String serialNumber;
         private String name;
         private String description;
         private Integer stock;
 
-        static ItemBuilder builder() {
+        public static ItemBuilder builder() {
             return new ItemBuilder();
         }
 
-        ItemBuilder serialNumber(String serialNumber) {
+        public ItemBuilder serialNumber(String serialNumber) {
             this.serialNumber = serialNumber;
             return this;
         }
 
-        ItemBuilder name(String name) {
+        public ItemBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        ItemBuilder description(String description) {
+        public ItemBuilder description(String description) {
             this.description = description;
             return this;
         }
 
-        ItemBuilder stock(Integer stock) {
+        public ItemBuilder stock(Integer stock) {
             this.stock = stock;
             return this;
         }
 
-        Item build() {
+        public Item build() {
             return new Item(this.serialNumber, this.name, this.description, this.stock);
         }
     }

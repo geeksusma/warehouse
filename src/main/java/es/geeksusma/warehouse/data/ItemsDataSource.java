@@ -10,6 +10,10 @@ public class ItemsDataSource implements DataSource<ItemEntity, Long> {
 
     private Map<Long, ItemEntity> items;
 
+    public ItemsDataSource() {
+        items = new HashMap<>();
+    }
+
     public ItemsDataSource(Map<Long, ItemEntity> items) {
         this.items = items;
     }

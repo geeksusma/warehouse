@@ -4,7 +4,7 @@ import es.geeksusma.warehouse.core.Validator;
 
 import java.util.List;
 
-public class CreateItemComponent implements CreateItem {
+class CreateItemComponent implements CreateItem {
     private final List<Validator<Item>> itemExistsValidator;
     private final SaveItemRepository saveItemRepository;
 
