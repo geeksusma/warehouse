@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ApiErrorHandler extends ResponseEntityExceptionHandler {
 
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorResponse response = new ErrorResponse();
@@ -23,6 +25,7 @@ public class ApiErrorHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SerialNumberDuplicityException.class)
     public ResponseEntity<ErrorResponse> handleSerialNumberDuplicated(SerialNumberDuplicityException e) {
         return ResponseEntity.badRequest().body(createTakenSerialNumberError(e));
