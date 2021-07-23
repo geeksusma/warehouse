@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class ItemEntity {
 
-    private final Long id;
-    private final String serialNumber;
-    private final String name;
-    private final String description;
-    private final Integer stock;
+    public final Long id;
+    public final String serialNumber;
+    public final String name;
+    public final String description;
+    public final Integer stock;
 
     public ItemEntity(Long id, String serialNumber, String name, String description, Integer stock) {
         this.id = id;
@@ -18,21 +18,6 @@ public class ItemEntity {
         this.stock = stock;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
     @Override
     public boolean equals(Object o) {

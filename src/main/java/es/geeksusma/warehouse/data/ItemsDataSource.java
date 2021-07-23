@@ -30,7 +30,7 @@ public class ItemsDataSource implements DataSource<ItemEntity, Long> {
 
     @Override
     public void persist(ItemEntity element) {
-        items.put(element.getId(), element);
+        items.put(element.id, element);
     }
 
     @Override

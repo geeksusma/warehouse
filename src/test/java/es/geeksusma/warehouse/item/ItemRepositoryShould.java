@@ -49,6 +49,22 @@ class ItemRepositoryShould {
         assertThat(this.itemsDataSource.getAll().get(1)).isEqualTo(new ItemEntity(newId, FREE_SERIAL_NUMBER, NEW_ITEM_NAME, NEW_ITEM_DESCRIPTION, NEW_ITEM_STOCK));
     }
 
+    @Test
+    void returnEmpty_when_idNotFound() {
+        Long newId = itemRepository.save(setUpNewItem());
+
+        assertThat(itemRepository.getById(++newId)).isEmpty();
+    }
+
+    @Test
+    void returnItem_when_idFound() {
+        Item expectedItem = setUpNewItem();
+
+        Long newId = itemRepository.save(expectedItem);
+
+        assertThat(itemRepository.getById(newId)).contains(expectedItem);
+    }
+
     private Item setUpNewItem() {
         return Item.ItemBuilder.builder()
                 .serialNumber(FREE_SERIAL_NUMBER)

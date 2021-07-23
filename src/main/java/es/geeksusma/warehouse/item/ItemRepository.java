@@ -3,11 +3,12 @@ package es.geeksusma.warehouse.item;
 import es.geeksusma.warehouse.data.ItemEntity;
 import es.geeksusma.warehouse.data.ItemsDataSource;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
-class ItemRepository implements ItemExistsRepository, SaveItemRepository {
+class ItemRepository implements ItemExistsRepository, SaveItemRepository, GetItemRepository {
     private final ItemsDataSource itemsDataSource;
 
     ItemRepository(ItemsDataSource itemsDataSource) {
@@ -16,7 +17,7 @@ class ItemRepository implements ItemExistsRepository, SaveItemRepository {
 
     @Override
     public boolean isSerialNumberInUse(String serialNumber) {
-        Set<String> serialNumbersInUse = itemsDataSource.getAll().stream().map(ItemEntity::getSerialNumber).collect(Collectors.toSet());
+        Set<String> serialNumbersInUse = itemsDataSource.getAll().stream().map(i -> i.serialNumber).collect(Collectors.toSet());
         return serialNumbersInUse.contains(serialNumber);
     }
 
@@ -31,5 +32,16 @@ class ItemRepository implements ItemExistsRepository, SaveItemRepository {
                 newItem.stock
         ));
         return nextId;
+    }
+
+    @Override
+    public Optional<Item> getById(Long id) {
+
+        return this.itemsDataSource.getAll().stream().filter(i -> i.id.equals(id)).findFirst().map(item -> Item.ItemBuilder.builder()
+                .serialNumber(item.serialNumber)
+                .name(item.name)
+                .description(item.description)
+                .stock(item.stock)
+                .build());
     }
 }
