@@ -16,10 +16,14 @@ class CreateItemComponent implements CreateItem {
 
     @Override
     public Long create(Item newItem) {
+        assertNewItem(newItem);
+        validators.forEach(v -> v.validate(newItem));
+        return saveItemRepository.save(newItem);
+    }
+
+    private void assertNewItem(Item newItem) {
         if (newItem == null || newItem.isEmpty()) {
             throw new IllegalArgumentException("Item can't be null or empty");
         }
-        validators.forEach(v -> v.validate(newItem));
-        return saveItemRepository.save(newItem);
     }
 }
