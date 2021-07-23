@@ -25,7 +25,7 @@ class ItemRepositoryShould {
 
         itemsDataSource = new ItemsDataSource(new HashMap<>());
         itemsDataSource.persist(new ItemEntity(1L, EXISTING_SERIAL_NUMBER, "test", "test", 1));
-        itemRepository = new ItemRepository(itemsDataSource);
+        itemRepository = new ItemRepository(itemsDataSource, new ItemItemEntityMapper());
     }
 
     @Test
@@ -58,11 +58,11 @@ class ItemRepositoryShould {
 
     @Test
     void returnItem_when_idFound() {
-        Item expectedItem = setUpNewItem();
+        Item newItem = setUpNewItem();
 
-        Long newId = itemRepository.save(expectedItem);
+        Long newId = itemRepository.save(newItem);
 
-        assertThat(itemRepository.getById(newId)).contains(expectedItem);
+        assertThat(itemRepository.getById(newId).get()).usingRecursiveComparison().ignoringFields("id").isEqualTo(newItem);
     }
 
     private Item setUpNewItem() {
