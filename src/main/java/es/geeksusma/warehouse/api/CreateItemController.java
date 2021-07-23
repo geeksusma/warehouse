@@ -23,10 +23,11 @@ class CreateItemController {
     }
 
     @PostMapping
-    ResponseEntity<Void> createItem(@Valid @RequestBody NewItemRequest request) {
+    ResponseEntity<Long> createItem(@Valid @RequestBody NewItemRequest request) {
 
-        createItem.create(Item.ItemBuilder.builder().serialNumber(request.getSerialNumber())
+        Long newItemId = createItem.create(Item.ItemBuilder.builder().serialNumber(request.getSerialNumber())
                 .description(request.getDescription()).name(request.getName()).stock(request.getStock()).build());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                newItemId);
     }
 }

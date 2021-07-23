@@ -15,11 +15,11 @@ class CreateItemComponent implements CreateItem {
     }
 
     @Override
-    public void create(Item newItem) {
+    public Long create(Item newItem) {
         if (newItem == null || newItem.isEmpty()) {
             throw new IllegalArgumentException("Item can't be null or empty");
         }
         itemExistsValidator.forEach(v -> v.validate(newItem));
-        saveItemRepository.save(newItem);
+        return saveItemRepository.save(newItem);
     }
 }

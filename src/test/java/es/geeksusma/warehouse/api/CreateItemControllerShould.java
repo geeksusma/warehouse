@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -83,15 +84,20 @@ class CreateItemControllerShould {
 
     @Test
     void returnCreated_when_itemIsCreated() throws Exception {
-        this.doPost(new NewItemRequest("123", "name", "desc", 123))
-                .andDo(print()).andExpect(status().isCreated());
-
-        then(component).should().create(Item.ItemBuilder.builder()
+        Item newItem = Item.ItemBuilder.builder()
                 .serialNumber("123")
                 .name("name")
                 .description("desc")
                 .stock(123)
-                .build());
+                .build();
+        Long newId = 23L;
+        given(component.create(newItem)).willReturn(newId);
+
+        ResultActions resultActions = this.doPost(new NewItemRequest("123", "name", "desc", 123))
+                .andDo(print()).andExpect(status().isCreated());
+
+        then(component).should().create(newItem);
+        assertThat(resultActions.andReturn().getResponse().getContentAsString()).isEqualTo(newId.toString());
     }
 
     @Test

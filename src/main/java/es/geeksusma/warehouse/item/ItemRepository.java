@@ -21,13 +21,15 @@ class ItemRepository implements ItemExistsRepository, SaveItemRepository {
     }
 
     @Override
-    public void save(Item newItem) {
+    public Long save(Item newItem) {
+        Long nextId = itemsDataSource.getNextId();
         this.itemsDataSource.persist(new ItemEntity(
-                itemsDataSource.getNextId(),
+                nextId,
                 newItem.serialNumber,
                 newItem.name,
                 newItem.description,
                 newItem.stock
         ));
+        return nextId;
     }
 }

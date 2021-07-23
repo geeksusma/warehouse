@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CreateItemShould {
@@ -74,12 +75,15 @@ class CreateItemShould {
     }
 
     @Test
-    void save_when_isNew() {
+    void returnNewId_when_saveNewItem() {
         final Item hammer = setUp9PoundHammer();
+        final Long givenId = 2L;
+        when(saveItemRepository.save(hammer)).thenReturn(givenId);
 
-        itemComponent.create(hammer);
+        Long newId = itemComponent.create(hammer);
 
         then(saveItemRepository).should().save(hammer);
+        assertThat(newId).isEqualTo(givenId);
 
     }
 

@@ -43,10 +43,10 @@ class ItemRepositoryShould {
     @Test
     void saveNewItem_when_persist() {
 
-        itemRepository.save(setUpNewItem());
+        Long newId = itemRepository.save(setUpNewItem());
 
         assertThat(this.itemsDataSource.getAll().size()).isEqualTo(2);
-        assertThat(this.itemsDataSource.getAll().get(1)).isEqualTo(new ItemEntity(2L, FREE_SERIAL_NUMBER, NEW_ITEM_NAME, NEW_ITEM_DESCRIPTION, NEW_ITEM_STOCK));
+        assertThat(this.itemsDataSource.getAll().get(1)).isEqualTo(new ItemEntity(newId, FREE_SERIAL_NUMBER, NEW_ITEM_NAME, NEW_ITEM_DESCRIPTION, NEW_ITEM_STOCK));
     }
 
     private Item setUpNewItem() {
