@@ -4,9 +4,9 @@ import javax.validation.constraints.NotBlank;
 
 public class NewItemRequest {
 
-    @NotBlank(message = "The serial number is mandatory")
+    @NotBlank(message = "Serial number is mandatory")
     private String serialNumber;
-    @NotBlank(message = "The item is mandatory")
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private String description;
     private Integer stock;
