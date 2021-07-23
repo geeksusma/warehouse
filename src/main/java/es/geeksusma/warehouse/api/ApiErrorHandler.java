@@ -2,6 +2,7 @@ package es.geeksusma.warehouse.api;
 
 import es.geeksusma.warehouse.api.dto.ErrorDTO;
 import es.geeksusma.warehouse.api.dto.ErrorResponse;
+import es.geeksusma.warehouse.item.ItemNotFound;
 import es.geeksusma.warehouse.item.SerialNumberDuplicityException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class ApiErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SerialNumberDuplicityException.class)
     public ResponseEntity<ErrorResponse> handleSerialNumberDuplicated(SerialNumberDuplicityException e) {
         return ResponseEntity.badRequest().body(createTakenSerialNumberError(e));
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ItemNotFound.class)
+    public ResponseEntity<Void> handleItemNotFound(ItemNotFound e) {
+        return ResponseEntity.notFound().build();
     }
 
     private ErrorResponse createTakenSerialNumberError(SerialNumberDuplicityException e) {

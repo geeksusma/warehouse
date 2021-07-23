@@ -19,6 +19,22 @@ public class Item {
         return this.serialNumber == null || "".equals(this.serialNumber);
     }
 
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
