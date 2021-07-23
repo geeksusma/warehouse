@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.geeksusma.warehouse.api.dto.NewItemRequest;
 import es.geeksusma.warehouse.item.CreateItem;
 import es.geeksusma.warehouse.item.Item;
+import es.geeksusma.warehouse.item.SerialNumberDuplicityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -89,6 +92,17 @@ class CreateItemControllerShould {
                 .description("desc")
                 .stock(123)
                 .build());
+    }
+
+    @Test
+    void returnBadRequestWithCustomError_when_serialNumberTaken() throws Exception {
+        NewItemRequest newItem = new NewItemRequest("123", "hammer", "desc", 123);
+        doThrow(new SerialNumberDuplicityException("taken!")).when(component).create(any(Item.class));
+
+        String jsonResponse = doPost(newItem).andReturn().getResponse().getContentAsString();
+
+        assertThat(jsonResponse).contains("\"code\":\"001\"", "\"pointer\":\"/serialNumber\"", "\"title\":\"The serial number is taken\"", "\"detail\":\"taken!\"");
+
     }
 
 

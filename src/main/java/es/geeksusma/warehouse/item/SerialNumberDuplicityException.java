@@ -1,8 +1,8 @@
 package es.geeksusma.warehouse.item;
 
-class SerialNumberDuplicityException extends RuntimeException {
+public class SerialNumberDuplicityException extends RuntimeException {
 
-    SerialNumberDuplicityException(String message) {
+    public SerialNumberDuplicityException(String message) {
         super(message);
     }
 }
