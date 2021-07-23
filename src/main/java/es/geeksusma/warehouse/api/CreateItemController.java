@@ -1,6 +1,7 @@
 package es.geeksusma.warehouse.api;
 
 import es.geeksusma.warehouse.api.dto.NewItemRequest;
+import es.geeksusma.warehouse.core.Mapper;
 import es.geeksusma.warehouse.item.CreateItem;
 import es.geeksusma.warehouse.item.Item;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,10 +21,12 @@ import javax.validation.Valid;
 @RequestMapping("/items")
 class CreateItemController {
 
-    private CreateItem createItem;
+    private final CreateItem createItem;
+    private final Mapper<Item, NewItemRequest> itemNewItemRequestMapper;
 
-    CreateItemController(CreateItem createItem) {
+    CreateItemController(CreateItem createItem, Mapper<Item, NewItemRequest> itemNewItemRequestMapper) {
         this.createItem = createItem;
+        this.itemNewItemRequestMapper = itemNewItemRequestMapper;
     }
 
     @Operation(summary = "Creates a new Item in the warehouse")
@@ -35,8 +38,7 @@ class CreateItemController {
     @PostMapping
     ResponseEntity<Long> createItem(@Valid @RequestBody NewItemRequest request) {
 
-        Long newItemId = createItem.create(Item.ItemBuilder.builder().serialNumber(request.getSerialNumber())
-                .description(request.getDescription()).name(request.getName()).stock(request.getStock()).build());
+        Long newItemId = createItem.create(itemNewItemRequestMapper.map(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 newItemId);
     }

@@ -72,7 +72,7 @@ class GetItemControllerShould {
     }
 
     private void setUpExistingItem(Long existingId) {
-        Item item = Item.ItemBuilder.builder().serialNumber(SERIAL_NUMBER).name(NAME).description(DESCRIPTION).stock(STOCK).build();
+        Item item = Item.ItemBuilder.builder().id(existingId).serialNumber(SERIAL_NUMBER).name(NAME).description(DESCRIPTION).stock(STOCK).build();
         given(component.byId(existingId)).willReturn(item);
     }
 

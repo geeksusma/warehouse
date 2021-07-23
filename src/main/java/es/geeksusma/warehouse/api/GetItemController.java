@@ -1,6 +1,7 @@
 package es.geeksusma.warehouse.api;
 
 import es.geeksusma.warehouse.api.dto.ItemDTO;
+import es.geeksusma.warehouse.core.Mapper;
 import es.geeksusma.warehouse.item.GetSingleItem;
 import es.geeksusma.warehouse.item.Item;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,14 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/items")
 class GetItemController {
 
-    private GetSingleItem getSingleItem;
+    private final GetSingleItem getSingleItem;
+    private final Mapper<ItemDTO, Item> itemDTOItemMapper;
 
-    GetItemController(GetSingleItem getSingleItem) {
+    GetItemController(GetSingleItem getSingleItem, Mapper<ItemDTO, Item> itemDTOItemMapper) {
         this.getSingleItem = getSingleItem;
+        this.itemDTOItemMapper = itemDTOItemMapper;
     }
 
     @Operation(summary = "Retrieves an Item if exists")
@@ -34,8 +38,6 @@ class GetItemController {
     @GetMapping("/{id}")
     ResponseEntity<ItemDTO> getItem(@PathVariable Long id) {
 
-        Item item = getSingleItem.byId(id);
-        return ResponseEntity.ok(
-                new ItemDTO(id, item.getSerialNumber(), item.getName(), item.getDescription(), item.getStock()));
+        return ResponseEntity.ok(itemDTOItemMapper.map(getSingleItem.byId(id)));
     }
 }
