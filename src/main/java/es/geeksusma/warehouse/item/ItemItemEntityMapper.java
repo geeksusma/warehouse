@@ -6,7 +6,7 @@ import es.geeksusma.warehouse.data.ItemEntity;
 public class ItemItemEntityMapper implements Mapper<Item, ItemEntity> {
     @Override
     public Item map(ItemEntity source) {
-        return Item.ItemBuilder.builder()
+        return ItemBuilder.builder()
                 .id(source.id)
                 .serialNumber(source.serialNumber)
                 .name(source.name)

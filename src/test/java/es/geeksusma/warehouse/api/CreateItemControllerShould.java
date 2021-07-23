@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.geeksusma.warehouse.api.dto.NewItemRequest;
 import es.geeksusma.warehouse.item.CreateItem;
 import es.geeksusma.warehouse.item.Item;
+import es.geeksusma.warehouse.item.ItemBuilder;
 import es.geeksusma.warehouse.item.SerialNumberDuplicityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,7 +85,7 @@ class CreateItemControllerShould {
 
     @Test
     void returnCreated_when_itemIsCreated() throws Exception {
-        Item newItem = Item.ItemBuilder.builder()
+        Item newItem = ItemBuilder.builder()
                 .serialNumber("123")
                 .name("name")
                 .description("desc")

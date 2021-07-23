@@ -25,7 +25,7 @@ class ItemExistsValidatorShould {
     @Test
     void throwNothing_when_serialNumberFree() {
         final String freeSn = "123";
-        final Item newItem = Item.ItemBuilder.builder()
+        final Item newItem = ItemBuilder.builder()
                 .serialNumber(freeSn)
                 .build();
 
@@ -36,7 +36,7 @@ class ItemExistsValidatorShould {
     @Test
     void throwError_when_serialNumberInUse() {
         final String takenSn = "123";
-        final Item newItem = Item.ItemBuilder.builder()
+        final Item newItem = ItemBuilder.builder()
                 .serialNumber(takenSn)
                 .build();
 

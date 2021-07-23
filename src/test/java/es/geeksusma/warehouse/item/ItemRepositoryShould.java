@@ -66,7 +66,7 @@ class ItemRepositoryShould {
     }
 
     private Item setUpNewItem() {
-        return Item.ItemBuilder.builder()
+        return ItemBuilder.builder()
                 .serialNumber(FREE_SERIAL_NUMBER)
                 .name(NEW_ITEM_NAME)
                 .description(NEW_ITEM_DESCRIPTION)

@@ -47,7 +47,7 @@ class GetSingleItemComponentShould {
     void returnFoundItem_when_exists() {
 
         long existingId = 1234L;
-        final Item expected = Item.ItemBuilder.builder()
+        final Item expected = ItemBuilder.builder()
                 .serialNumber("12345")
                 .name("Toy Car")
                 .description("Red colour medium size")

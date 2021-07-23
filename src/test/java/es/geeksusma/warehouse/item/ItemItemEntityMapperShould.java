@@ -24,7 +24,7 @@ class ItemItemEntityMapperShould {
     }
 
     private Item setUpExpectedItem() {
-        return Item.ItemBuilder.builder()
+        return ItemBuilder.builder()
                 .id(ID)
                 .serialNumber(SERIAL_NUMBER)
                 .name(NAME)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.geeksusma.warehouse.api.dto.ItemDTO;
 import es.geeksusma.warehouse.item.GetSingleItem;
 import es.geeksusma.warehouse.item.Item;
+import es.geeksusma.warehouse.item.ItemBuilder;
 import es.geeksusma.warehouse.item.ItemNotFound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +73,7 @@ class GetItemControllerShould {
     }
 
     private void setUpExistingItem(Long existingId) {
-        Item item = Item.ItemBuilder.builder().id(existingId).serialNumber(SERIAL_NUMBER).name(NAME).description(DESCRIPTION).stock(STOCK).build();
+        Item item = ItemBuilder.builder().id(existingId).serialNumber(SERIAL_NUMBER).name(NAME).description(DESCRIPTION).stock(STOCK).build();
         given(component.byId(existingId)).willReturn(item);
     }
 
