@@ -1,0 +1,34 @@
+# ... Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouse-api
+  template:
+    metadata:
+      labels:
+        app: warehouse-api
+    spec:
+      containers:
+        - name: app
+          image: warehouse:0.0.1
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Never
+---
+# ... Service YAML definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-api
+spec:
+  selector:
+    app: warehouse-api
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
