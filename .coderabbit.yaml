@@ -1,0 +1,66 @@
+reviews:
+  profile: strict
+  request_changes_workflow: true
+
+  # =====================
+  # Reglas de código existentes
+  # =====================
+  rules:
+    - name: no-lombok
+      description: "Prohibir uso de lombok"
+      pattern: "import lombok\\..*;"
+      severity: error
+      message: "No se permite usar Lombok. Usa getters/setters manuales."
+
+    - name: breaking-controller
+      description: "Detectar cambios en métodos públicos de Controller"
+      path: "src/main/java/**/controller/**/*.java"
+      pattern: "public .* \\w+\\(.*\\)\\s*\\{"
+      detect_change_type: signature_change
+      severity: warning
+      message: "Este cambio podría romper la API pública del Controller."
+
+    - name: dto-leak
+      description: "Evitar que un DTO vaya hasta repository"
+      path: "src/main/java/**/repository/**/*.java"
+      pattern: ".*Dto.*"
+      severity: error
+      message: "No está permitido pasar DTOs directamente al repository. Usa entidades o mappers."
+
+    - name: low-test-coverage
+      description: "Detectar clases con cobertura insuficiente"
+      path: "src/main/java/**/*.java"
+      coverage:
+        min_percentage: 80
+        report_path: "target/site/jacoco/jacoco.xml"
+      severity: error
+      message: "Cobertura insuficiente. Se requiere ≥80% antes de mergear."
+
+    - name: high-risk-change
+      description: "Evaluar riesgo de romper la build"
+      path: "src/main/java/**/**/*.java"
+      risk_assessment:
+        factors:
+          - rule_violations: weight 0.5
+          - coverage_below_threshold: weight 0.3
+          - critical_class_change: weight 0.2
+      severity: warning
+      message: "Esta PR tiene alto riesgo de romper la build. Revisa antes de mergear."
+
+    # =====================
+    # Nueva regla: evitar ficheros locales / binarios / target
+    # =====================
+    - name: no-local-binaries
+      description: "Evitar push de ficheros locales o binarios generados"
+      path: "**/*"
+      pattern: |
+        (^target/)|
+        (.*\.jar$)|
+        (.*\.war$)|
+        (.*\.ear$)|
+        (.*\.tmp$)|
+        (.*\.local.*$)|
+        (^\.env$)|
+        (^.*~$)
+      severity: error
+      message: "No se permite push de ficheros binarios, la carpeta target ni ficheros locales (.jar, .tmp, .env, etc.)"
