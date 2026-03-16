@@ -1,11 +1,14 @@
 package es.geeksusma.warehouse.api.dto;
 
+import lombok.Getter;
+
 import javax.validation.constraints.NotBlank;
 
+@Getter
 public class NewItemRequest {
 
     @NotBlank(message = "Serial number is mandatory")
-    private String serialNumber;
+    private String serial;
     @NotBlank(message = "Name is mandatory")
     private String name;
     private String description;
@@ -14,26 +17,10 @@ public class NewItemRequest {
     public NewItemRequest() {
     }
 
-    public NewItemRequest(String serialNumber, String name, String description, Integer stock) {
-        this.serialNumber = serialNumber;
+    public NewItemRequest(String serial, String name, String description, Integer stock) {
+        this.serial = serial;
         this.name = name;
         this.description = description;
         this.stock = stock;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getStock() {
-        return stock;
     }
 }
