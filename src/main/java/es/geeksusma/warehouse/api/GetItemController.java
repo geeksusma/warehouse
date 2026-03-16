@@ -36,8 +36,8 @@ class GetItemController {
             @ApiResponse(responseCode = "404", description = "Not found",
                     content = @Content)})
     @GetMapping("/{id}")
-    ResponseEntity<ItemDTO> getItem(@PathVariable Long id) {
+    ResponseEntity<ItemDTO> getItem(@PathVariable String id) {
 
-        return ResponseEntity.ok(itemDTOItemMapper.map(getSingleItem.byId(id)));
+        return ResponseEntity.ok(itemDTOItemMapper.map(getSingleItem.byId(1L)));
     }
 }
