@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ItemNewItemRequestMapper implements Mapper<Item, NewItemRequest> {
     @Override
     public Item map(NewItemRequest request) {
-        return ItemBuilder.builder().serialNumber(request.getSerialNumber())
+        return ItemBuilder.builder().serialNumber(request.getSerial())
                 .description(request.getDescription()).name(request.getName()).stock(request.getStock()).build();
     }
 }
